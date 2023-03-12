@@ -22,11 +22,18 @@ def open_file():
 def generate_image_using_data(data):
     img = Image.new(mode = "1", size = (512, 512), color="white")
     draw = ImageDraw.Draw(img)
-    for x in range(len(data)):
-        for y in range(len(data[x])):
-            if (data[x][y] == '1'):
-                draw.point(xy = (x,y), fill = "black")
-
+    countX = 0
+    countY = 0
+    for x in range(512):
+        for y in range(512):
+            if (countX != len(data) - 1):
+                if (y % len(data[countX])  == 0):
+                    countY = 0
+                    countX = countX + 1
+                else:
+                    countY = countY + 1
+                if (data[countX][countY] == '1'):
+                        draw.point(xy = (x,y), fill = "black")
     img.save(fp = "test.png")
     img_byte_arr = io.BytesIO()
     img.save(img_byte_arr, format='PNG')
